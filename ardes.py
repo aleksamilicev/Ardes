@@ -1,0 +1,1 @@
+print("Bravo, uspesno si pokrenuo skriptu")
