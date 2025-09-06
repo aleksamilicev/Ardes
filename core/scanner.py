@@ -133,7 +133,7 @@ def identify_server(response_text):
     }
     
     for header, text in additional_headers.items():
-        header_match = re.search(f'{header}:\s*([^\r\n]+)', text, re.IGNORECASE)
+        header_match = re.search(rf'{header}:\s*([^\r\n]+)', text, re.IGNORECASE)
         if header_match:
             value = header_match.group(1).strip()
             if 'PHP' in value.upper():
