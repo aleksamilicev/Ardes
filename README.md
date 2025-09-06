@@ -1,4 +1,5 @@
-Ardes: Alat za skeniranje i pretragu sigurnosnih ranjivosti
+# Ardes:
+Alat za skeniranje i pretragu sigurnosnih ranjivosti
 Ardes je alat razvijen za skeniranje IP adresa, detekciju portova, brute-force napade na direktorijume, kao i pretragu exploit-a u bazi podataka Exploit-DB. Kombinuje različite tehnike za analizu sigurnosti i pruža korisnicima efikasne alate za istraživanje potencijalnih ranjivosti.
 
 # Struktura projekta
