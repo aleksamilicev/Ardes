@@ -1,0 +1,14 @@
+apache=apache httpd,apache2
+nginx=nginx
+php=php,php/7,php/8
+wordpress=wordpress,wp-content,wp-includes
+joomla=joomla
+drupal=drupal
+microsoft-iis=iis,microsoft-iis
+tomcat=tomcat,apache tomcat
+jquery=jquery
+react=react,reactjs
+angular=angular
+vue=vue.js,vuejs
+django=django
+flask=flask
