@@ -1,8 +1,97 @@
-django=django
-flask=flask
-spring=spring,springboot
-laravel=laravel
-symfony=symfony
-express=express,node express
-fastapi=fastapi
-aspnet-core=asp.net core,aspnetcore
+# Python Frameworks
+django
+flask
+fastapi
+pyramid
+tornado
+cherrypy
+bottle
+falcon
+starlette
+sanic
+quart
+aiohttp
+web2py
+turbogears
+
+# PHP Frameworks
+laravel
+symfony
+codeigniter
+cakephp
+zend framework
+phalcon
+yii framework
+slim framework
+lumen
+kohana
+
+# Java Frameworks
+spring boot
+spring framework
+struts
+jsf
+vaadin
+grails
+play framework
+wicket
+tapestry
+vert.x
+
+# JavaScript/Node.js Frameworks
+express
+koa
+hapi
+fastify
+nest.js
+adonis
+meteor
+sails.js
+loopback
+restify
+
+# .NET Frameworks
+asp.net core
+asp.net mvc
+asp.net web api
+nancy
+servicestack
+carter
+
+# Ruby Frameworks
+ruby on rails
+sinatra
+padrino
+hanami
+roda
+camping
+cuba
+
+# Go Frameworks
+gin
+echo
+fiber
+beego
+revel
+iris
+chi
+gorilla
+
+# Rust Frameworks
+actix-web
+rocket
+warp
+axum
+tide
+
+# Other Languages
+django rest framework
+flask-restx
+fastapi
+express.js
+koa.js
+spring mvc
+asp.net
+rails api
+sinatra
+grape

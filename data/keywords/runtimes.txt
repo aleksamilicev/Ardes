@@ -1,7 +1,97 @@
-php=php,php/7,php/8
-asp.net=asp.net,aspx
-java-servlet=jsp,servlet
-python=python
-ruby=ruby,ruby on rails,rails
-golang=golang,go
-nodejs=node.js,nodejs,express
+# PHP
+php
+php/5.6
+php/7.0
+php/7.1
+php/7.2
+php/7.3
+php/7.4
+php/8.0
+php/8.1
+php/8.2
+php/8.3
+php-fpm
+hhvm
+
+# Python
+python
+python/2.7
+python/3.6
+python/3.7
+python/3.8
+python/3.9
+python/3.10
+python/3.11
+python/3.12
+pypy
+cython
+anaconda
+miniconda
+
+# Java
+java
+openjdk
+oracle jdk
+amazon corretto
+adoptopenjdk
+java/8
+java/11
+java/17
+java/21
+scala
+kotlin
+groovy
+jruby
+
+# .NET
+dotnet
+.net framework
+.net core
+.net 5
+.net 6
+.net 7
+.net 8
+mono
+asp.net
+aspx
+mvc
+
+# JavaScript/Node.js
+node.js
+nodejs
+v8
+deno
+bun
+
+# Ruby
+ruby
+ruby/2.7
+ruby/3.0
+ruby/3.1
+ruby/3.2
+jruby
+mruby
+rubinius
+
+# Go
+golang
+go
+go/1.19
+go/1.20
+go/1.21
+
+# Rust
+rust
+rustc
+
+# Other Languages
+perl
+perl/5
+lua
+r
+matlab
+erlang
+elixir
+haskell
+ocaml
+clojure

@@ -1,10 +1,96 @@
-wordpress=wordpress,wp-content,wp-includes
-joomla=joomla
-drupal=drupal
-magento=magento
-shopify=shopify
-prestashop=prestashop
-opencart=opencart
-ghost=ghost
-wix=wix
-squarespace=squarespace
+# Popular CMS
+wordpress
+wp-content
+wp-includes
+wp-admin
+wp-json
+joomla
+drupal
+magento
+prestashop
+opencart
+ghost
+craft cms
+concrete5
+textpattern
+modx
+processwire
+kirby
+grav
+october cms
+bolt cms
+
+# Enterprise CMS
+sitecore
+adobe experience manager
+episerver
+kentico
+umbraco
+orchard cms
+sharepoint
+tridion
+hippo cms
+magnolia
+
+# E-commerce CMS
+shopify
+woocommerce
+bigcommerce
+squarespace commerce
+wix stores
+volusion
+3dcart
+zen cart
+oscommerce
+ubercart
+drupal commerce
+
+# Headless CMS
+strapi
+contentful
+sanity
+forestry
+netlify cms
+ghost
+keystone
+cockpit
+directus
+butter cms
+
+# Wiki & Documentation
+mediawiki
+dokuwiki
+tiddlywiki
+bookstack
+outline
+gitbook
+notion
+confluence
+
+# Forum & Community
+phpbb
+vbulletin
+mybb
+smf
+vanilla forums
+discourse
+flarum
+nodebb
+
+# Blogging Platforms
+wordpress
+blogger
+medium
+ghost
+jekyll
+hugo
+hexo
+gatsby
+pelican
+
+# Landing Page Builders
+unbounce
+leadpages
+instapage
+clickfunnels
+mailchimp landing page

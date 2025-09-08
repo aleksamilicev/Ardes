@@ -1,7 +1,99 @@
-jquery=jquery
-react=react,reactjs
-angular=angular
-vue=vue.js,vuejs
-svelte=svelte
-ember=ember.js,emberjs
-backbone=backbone.js,backbonejs
+# JavaScript Libraries
+jquery
+prototype
+mootools
+underscore.js
+lodash
+moment.js
+axios
+fetch api
+alamofire
+
+# Modern JS Frameworks
+react
+reactjs
+angular
+angularjs
+vue.js
+vuejs
+svelte
+sveltekit
+solid.js
+qwik
+lit
+stencil
+
+# State Management
+redux
+mobx
+vuex
+pinia
+zustand
+recoil
+ngrx
+
+# CSS Frameworks
+bootstrap
+foundation
+bulma
+tailwind css
+material-ui
+ant design
+chakra ui
+semantic ui
+pure css
+skeleton
+milligram
+
+# Build Tools & Bundlers
+webpack
+parcel
+rollup
+vite
+esbuild
+gulp
+grunt
+brunch
+browserify
+snowpack
+
+# Testing Frameworks
+jest
+mocha
+jasmine
+karma
+cypress
+playwright
+selenium
+puppeteer
+
+# UI Component Libraries
+material-ui
+ant design
+chakra ui
+react bootstrap
+vue material
+quasar
+vuetify
+primeng
+ng-bootstrap
+
+# CSS Preprocessors
+sass
+scss
+less
+stylus
+postcss
+
+# Package Managers
+npm
+yarn
+pnpm
+bower
+
+# Development Tools
+babel
+typescript
+eslint
+prettier
+storybook

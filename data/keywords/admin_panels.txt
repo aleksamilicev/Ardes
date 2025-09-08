@@ -1,9 +1,93 @@
-phpmyadmin=phpmyadmin
-cPanel=cpanel,whm
-plesk=plesk
-kibana=kibana
-jenkins=jenkins
-gitlab=gitlab
-grafana=grafana
-elasticsearch=elasticsearch
-mongodb=mongodb
+# Database Admin Tools
+phpmyadmin
+phpMyAdmin
+adminer
+sequel pro
+mysql workbench
+navicat
+dbeaver
+phpLiteAdmin
+sqlite admin
+mongodb compass
+
+# Server Control Panels
+cpanel
+whm
+plesk
+directadmin
+ispconfig
+virtualmin
+webmin
+froxlor
+sentora
+aapanel
+cyberpanel
+vestacp
+hestiacp
+ajenti
+zentyal
+
+# Development & CI/CD Admin Panels
+jenkins
+gitlab
+github
+bitbucket
+teamcity
+bamboo
+travis ci
+circle ci
+drone ci
+buildkite
+gocd
+octopus deploy
+
+# Monitoring & Analytics Admin
+kibana
+grafana
+prometheus
+nagios
+zabbix
+cacti
+observium
+prtg
+datadog
+new relic
+dynatrace
+splunk
+elk stack
+graylog
+fluentd
+
+# Content Management Admin
+wordpress admin
+wp-admin
+joomla administrator
+drupal admin
+magento admin
+prestashop admin
+opencart admin
+
+# Cloud & Container Admin
+kubernetes dashboard
+docker
+portainer
+rancher
+openshift
+aws console
+azure portal
+google cloud console
+digitalocean
+linode
+vultr
+
+# Network & Security Admin
+pfsense
+opnsense
+untangle
+sophos
+fortinet
+checkpoint
+cisco asa
+juniper
+ubiquiti
+mikrotik

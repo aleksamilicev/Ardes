@@ -1,7 +1,75 @@
-apache=apache httpd,apache2
-nginx=nginx
-microsoft-iis=iis,microsoft-iis
-tomcat=tomcat,apache tomcat
-caddy=caddyserver
-lighttpd=lighttpd
-jetty=jetty
+# Apache
+apache
+apache httpd
+apache/2.2
+apache/2.4
+httpd
+
+# Nginx
+nginx
+nginx/1.18
+nginx/1.20
+nginx/1.22
+nginx/1.24
+
+# Microsoft IIS
+iis
+microsoft-iis
+iis/7.5
+iis/8.0
+iis/8.5
+iis/10.0
+
+# Java Application Servers
+tomcat
+apache tomcat
+tomcat/8
+tomcat/9
+tomcat/10
+jetty
+websphere
+weblogic
+jboss
+wildfly
+glassfish
+payara
+
+# Other Web Servers
+caddy
+caddyserver
+lighttpd
+cherokee
+hiawatha
+monkey http server
+openlitespeed
+litespeed
+
+# Reverse Proxies & Load Balancers
+haproxy
+varnish
+squid
+cloudflare
+aws cloudfront
+fastly
+traefik
+
+# Application Servers
+unicorn
+puma
+passenger
+gunicorn
+uwsgi
+waitress
+cherrypy
+tornado
+
+# Cloud Platforms
+aws lambda
+azure functions
+google cloud functions
+vercel
+netlify
+heroku
+railway
+render
+fly.io
