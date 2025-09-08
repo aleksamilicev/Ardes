@@ -1,0 +1,10 @@
+wordpress=wordpress,wp-content,wp-includes
+joomla=joomla
+drupal=drupal
+magento=magento
+shopify=shopify
+prestashop=prestashop
+opencart=opencart
+ghost=ghost
+wix=wix
+squarespace=squarespace

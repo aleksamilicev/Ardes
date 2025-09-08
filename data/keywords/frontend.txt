@@ -1,0 +1,7 @@
+jquery=jquery
+react=react,reactjs
+angular=angular
+vue=vue.js,vuejs
+svelte=svelte
+ember=ember.js,emberjs
+backbone=backbone.js,backbonejs

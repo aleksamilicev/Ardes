@@ -1,0 +1,7 @@
+php=php,php/7,php/8
+asp.net=asp.net,aspx
+java-servlet=jsp,servlet
+python=python
+ruby=ruby,ruby on rails,rails
+golang=golang,go
+nodejs=node.js,nodejs,express

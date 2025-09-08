@@ -1,0 +1,9 @@
+phpmyadmin=phpmyadmin
+cPanel=cpanel,whm
+plesk=plesk
+kibana=kibana
+jenkins=jenkins
+gitlab=gitlab
+grafana=grafana
+elasticsearch=elasticsearch
+mongodb=mongodb

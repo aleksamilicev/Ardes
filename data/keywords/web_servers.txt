@@ -1,0 +1,7 @@
+apache=apache httpd,apache2
+nginx=nginx
+microsoft-iis=iis,microsoft-iis
+tomcat=tomcat,apache tomcat
+caddy=caddyserver
+lighttpd=lighttpd
+jetty=jetty
