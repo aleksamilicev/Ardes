@@ -15,6 +15,7 @@ init(autoreset=True)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WORDLIST = os.path.join(BASE_DIR, "..", "data", "common-dirb.txt")
 REPORTS_DIR = os.path.join(BASE_DIR, "reports")
+RESULTS_DIR = os.path.join(BASE_DIR, "results")  # Novi folder za mašinski čitljive rezultate
 
 # Status kodovi koji se smatraju "interesantnim"
 INTERESTING_CODES = [200, 201, 202, 204, 301, 302, 307, 401, 403, 500, 503]
@@ -55,9 +56,9 @@ def format_size(size_bytes):
     if size_bytes < 1024:
         return f"{size_bytes}B"
     elif size_bytes < 1024 * 1024:
-        return f"{size_bytes/1024:.0f}"
+        return f"{size_bytes/1024:.0f}K"
     else:
-        return f"{size_bytes/(1024*1024):.0f}"
+        return f"{size_bytes/(1024*1024):.0f}M"
 
 def test_connection(base_url):
     """Testira konekciju sa target serverom"""
@@ -86,8 +87,34 @@ def print_banner(base_url, wordlist_path, extensions_used, total_words):
     print("Starting DirBuster in directory enumeration mode")
     print("=" * 63)
 
+def save_machine_readable_results(target_url, found_paths):
+    """Čuva rezultate u mašinski čitljivom formatu u results/dirb.txt"""
+    if not os.path.exists(RESULTS_DIR):
+        os.makedirs(RESULTS_DIR)
+    
+    filename = os.path.join(RESULTS_DIR, "dirb.txt")
+    
+    # Parse base URL to get the proper format
+    parsed_url = urlparse(target_url)
+    base_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+    
+    try:
+        with open(filename, "w", encoding='utf-8') as f:
+            if found_paths:
+                for path, code, size, redirect in found_paths:
+                    # Format: http://ip_adresa:port/resurs
+                    full_url = urljoin(base_url, path)
+                    f.write(f"{full_url}\n")
+            else:
+                # Ako nema rezultata, fajl će biti prazan ili možemo dodati komentar
+                pass
+        
+        #print(f"{Fore.CYAN}[+] Machine readable results saved: {filename}{Style.RESET_ALL}")
+    except Exception as e:
+        print(f"{Fore.RED}[!] Error saving machine readable results: {e}{Style.RESET_ALL}")
+
 def save_report(target_url, found_paths, scan_stats):
-    """Čuva detaljan izveštaj"""
+    """Čuva detaljan izveštaj u reports folder"""
     if not os.path.exists(REPORTS_DIR):
         os.makedirs(REPORTS_DIR)
     
@@ -160,6 +187,9 @@ def dirbuster_scan(base_url, wordlist, delay=0):
                         print(f"{color}[+] /{word:<15} (Status: {status_code}) "
                               f"[Size: {format_size(content_length)}]{Style.RESET_ALL}")
                         found.append((word, status_code, format_size(content_length), None))
+                    
+                    # Sačuvaj trenutne rezultate u real-time (za slučaj prekida)
+                    save_machine_readable_results(base_url, found)
                 
                 # Progress update na istoj liniji (kao gobuster)
                 progress_percent = (i / total) * 100
@@ -176,6 +206,9 @@ def dirbuster_scan(base_url, wordlist, delay=0):
     
     except KeyboardInterrupt:
         print(f"\n{Fore.RED}[!] Scan interrupted by user.{Style.RESET_ALL}")
+        # Sačuvaj trenutne rezultate i pri prekidu
+        print(f"{Fore.YELLOW}[*] Saving current results...{Style.RESET_ALL}")
+        save_machine_readable_results(base_url, found)
     
     # Final progress - obriši prethodnu liniju i ispiši finalnu
     print(f"\rProgress: {i} / {total} (100.00%)")
@@ -247,8 +280,9 @@ def main():
     # Pokreni skeniranje
     found_paths, scan_stats = dirbuster_scan(base_url, wordlist, delay)
     
-    # Sačuvaj izveštaj
+    # Sačuvaj oba tipa rezultata
     save_report(base_url, found_paths, scan_stats)
+    save_machine_readable_results(base_url, found_paths)
 
 if __name__ == "__main__":
     main()
