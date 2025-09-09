@@ -77,10 +77,10 @@ def test_connection(base_url):
 
 def print_banner(base_url, wordlist_path, extensions_used, total_words, threads):
     """Ispisuje banner u gobuster stilu"""
-    print("=" * 63)
+    print("=" * 70)
     print("DirBuster v2.0 - Threaded Edition")
     print("by A13k5a M1l1c3v")
-    print("=" * 63)
+    print("=" * 70)
     print(f"[+] Url:                     {base_url}")
     print(f"[+] Method:                  GET")
     print(f"[+] Threads:                 {threads}")
@@ -90,9 +90,9 @@ def print_banner(base_url, wordlist_path, extensions_used, total_words, threads)
     if extensions_used:
         print(f"[+] Extensions:              {', '.join(EXTENSIONS[1:])}")  # Skip empty extension
     print(f"[+] Timeout:                 10s")
-    print("=" * 63)
+    print("=" * 70)
     print("Starting DirBuster in directory enumeration mode")
-    print("=" * 63)
+    print("=" * 70)
 
 def save_machine_readable_results(target_url, found_paths):
     """Čuva rezultate u mašinski čitljivom formatu u results/dirb.txt, bez 403"""
@@ -135,14 +135,14 @@ def save_report(target_url, found_paths, scan_stats):
     
     with open(filename, "w", encoding='utf-8') as f:
         f.write(f"DirBuster Scan Results\n")
-        f.write("=" * 60 + "\n")
+        f.write("=" * 70 + "\n")
         f.write(f"Target URL: {target_url}\n")
         f.write(f"Scan Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"Total Requests: {scan_stats['total_requests']}\n")
         f.write(f"Found Paths: {len(found_paths)}\n")
         f.write(f"Scan Duration: {scan_stats['duration']:.2f} seconds\n")
         f.write(f"Requests/second: {scan_stats['requests_per_second']:.2f}\n")
-        f.write("\n" + "=" * 60 + "\n\n")
+        f.write("\n" + "=" * 70 + "\n\n")
         
         if found_paths:
             f.write("DISCOVERED PATHS:\n")
@@ -156,9 +156,9 @@ def save_report(target_url, found_paths, scan_stats):
             f.write("No interesting directories/files found.\n")
     
     with print_lock:
-        print("=" * 63)
+        print("=" * 70)
         print("Finished")
-        print("=" * 63)
+        print("=" * 70)
         print(f"{Fore.GREEN}[+] Report saved: {filename}{Style.RESET_ALL}")
 
 

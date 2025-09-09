@@ -302,15 +302,15 @@ def save_report(results):
     
     with open(filename, "w", encoding="utf-8") as f:
         f.write("Fetcher Results - Detailed Report\n")
-        f.write("=" * 60 + "\n")
+        f.write("=" * 70 + "\n")
         f.write(f"Scan Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write(f"Total URLs: {len(results)}\n")
         f.write(f"Successful: {len([r for r in results if r['status'] != 'Error'])}\n")
         f.write(f"Failed: {len([r for r in results if r['status'] == 'Error'])}\n")
-        f.write("\n" + "=" * 60 + "\n\n")
+        f.write("\n" + "=" * 70 + "\n\n")
         
         for entry in results:
-            f.write("=" * 60 + "\n")
+            f.write("=" * 70 + "\n")
             f.write(f"URL: {entry['url']}\n")
             f.write(f"Status: {entry['status']}\n")
             
@@ -344,7 +344,7 @@ def main():
     global FINGERPRINT_KEYWORDS
     FINGERPRINT_KEYWORDS = load_keywords(KEYWORDS_FILE)
     print(f"{Fore.CYAN}[*] Fetcher v2.0 - Enhanced URL Content Fetcher{Style.RESET_ALL}")
-    print("=" * 60)
+    print("=" * 70)
     
     # Učitaj dirb report
     latest_report = get_dirb_file()
@@ -393,7 +393,7 @@ def main():
                     "error": str(e)
                 })
     
-    print("\n" + "=" * 60)
+    print("\n" + "=" * 70)
     print(f"{Fore.GREEN}[+] Fetching completed!{Style.RESET_ALL}")
     print(f"Total URLs processed: {len(results)}")
     print(f"Successful: {len([r for r in results if r['status'] != 'Error'])}")

@@ -301,11 +301,11 @@ class TechnologyFingerprinter:
         
         with open(filename, 'w', encoding='utf-8') as f:
             f.write("Technology Fingerprinting Report\n")
-            f.write("=" * 60 + "\n")
+            f.write("=" * 70 + "\n")
             f.write(f"Scan Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write(f"URLs Analyzed: {len(self.detected_technologies)}\n")
             f.write(f"Total Search Terms Generated: {len(all_search_terms)}\n")
-            f.write("\n" + "=" * 60 + "\n\n")
+            f.write("\n" + "=" * 70 + "\n\n")
             
             # Technology detection results
             f.write("DETECTED TECHNOLOGIES BY URL:\n")
@@ -340,7 +340,7 @@ class TechnologyFingerprinter:
 
 def main():
     print(f"{Fore.CYAN}Fingerprint v1.0 - Technology Detection{Style.RESET_ALL}")
-    print("=" * 50)
+    print("=" * 70)
     
     fingerprinter = TechnologyFingerprinter()
     
@@ -366,7 +366,7 @@ def main():
     fingerprinter.save_detailed_report()
     
     # Summary
-    print("\n" + "=" * 50)
+    print("\n" + "=" * 70)
     print(f"{Fore.GREEN}[+] Fingerprinting completed!{Style.RESET_ALL}")
     print(f"URLs with detected technologies: {len(fingerprinter.detected_technologies)}")
     

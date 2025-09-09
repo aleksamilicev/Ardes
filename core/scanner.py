@@ -241,7 +241,8 @@ def save_enhanced_report(target_ip, results):
         else:
             f.write("No HTTP servers found on scanned ports.\n")
     
-    print("=" * 63)
+    print("Finished")
+    print("=" * 70)
     print(f"{Fore.GREEN}[+] Detailed report is saved in: {filename}{Style.RESET_ALL}")
 
 def main():
@@ -259,7 +260,7 @@ def main():
         print(f"{Fore.RED}[!] Invalid IP address!{Style.RESET_ALL}")
         sys.exit(1)
     
-    print("=" * 63)
+    #print("=" * 70)
     print(f"[*] Scanning {target_ip} for HTTP servers on ports {HTTP_PORTS}...{Style.RESET_ALL}")
     print(f"{Fore.CYAN}[*] This could take a few seconds...\n{Style.RESET_ALL}")
     
@@ -268,9 +269,9 @@ def main():
     results = {}
     
     if open_ports:
-        print("=" * 63)
+        print("=" * 70)
         print(f"{Fore.GREEN}[+] Found open ports: {open_ports}\n{Style.RESET_ALL}")
-        print("=" * 63)
+        print("=" * 70)
         
         for port in open_ports:
             print(f"{Fore.CYAN}[*] Analyzing port {port}...{Style.RESET_ALL}")
@@ -284,7 +285,7 @@ def main():
                 
                 print(f"{Fore.GREEN}[+] Port {port} - HTTP server detected:{Style.RESET_ALL}")
                 display_server_info(server_info)
-                print("=" * 63)
+                print("=" * 70)
                 print()
             else:
                 print(f"{Fore.RED}[-] Port {port} - No HTTP answer{Style.RESET_ALL}\n")
@@ -297,9 +298,9 @@ def main():
         save_enhanced_report(target_ip, results)
         
         # Sažetak
-        print("\n" + "=" * 50)
+        print("\n" + "=" * 70)
         print("SCAN SUMMARY:")
-        print("=" * 50)
+        print("=" * 70)
         for port, data in results.items():
             server = data['server_info']
             print(f"Port {port}: {Fore.GREEN}{server['name']} {server['version']} ({server['confidence']} confidence){Style.RESET_ALL}")

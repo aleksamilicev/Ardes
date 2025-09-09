@@ -19,6 +19,7 @@ kirby
 grav
 october cms
 bolt cms
+sweetrice
 
 # Enterprise CMS
 sitecore
