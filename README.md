@@ -1,36 +1,94 @@
-# Ardes:
-Alat za skeniranje i pretragu sigurnosnih ranjivosti
-Ardes je alat razvijen za skeniranje IP adresa, detekciju portova, brute-force napade na direktorijume, kao i pretragu exploit-a u bazi podataka Exploit-DB. Kombinuje različite tehnike za analizu sigurnosti i pruža korisnicima efikasne alate za istraživanje potencijalnih ranjivosti.
+# ARDES
 
-# Struktura projekta
-Projekat je organizovan u sledećoj strukturi direktorijuma:
+```
+          _____                    _____                    _____                    _____                    _____          
+         /\    \                  /\    \                  /\    \                  /\    \                  /\    \         
+        /::\    \                /::\    \                /::\    \                /::\    \                /::\    \        
+       /::::\    \              /::::\    \              /::::\    \              /::::\    \              /::::\    \       
+      /::::::\    \            /::::::\    \            /::::::\    \            /::::::\    \            /::::::\    \      
+     /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \          /:::/\:::\    \     
+    /:::/__\:::\    \        /:::/__\:::\    \        /:::/  \:::\    \        /:::/__\:::\    \        /:::/__\:::\    \    
+   /::::\   \:::\    \      /::::\   \:::\    \      /:::/    \:::\    \      /::::\   \:::\    \       \:::\   \:::\    \   
+  /::::::\   \:::\    \    /::::::\   \:::\    \    /:::/    / \:::\    \    /::::::\   \:::\    \    ___\:::\   \:::\    \  
+ /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\  /:::/    /   \:::\ ___\  /:::/\:::\   \:::\    \  /\   \:::\   \:::\    \ 
+/:::/  \:::\   \:::\____\/:::/  \:::\   \:::|    |/:::/____/     \:::|    |/:::/__\:::\   \:::\____\/::\   \:::\   \:::\____\
+\::/    \:::\  /:::/    /\::/   |::::\  /:::|____|\:::\    \     /:::|____|\:::\   \:::\   \::/    /\:::\   \:::\   \::/    /
+ \/____/ \:::\/:::/    /  \/____|:::::\/:::/    /  \:::\    \   /:::/    /  \:::\   \:::\   \/____/  \:::\   \:::\   \/____/ 
+          \::::::/    /         |:::::::::/    /    \:::\    \ /:::/    /    \:::\   \:::\    \       \:::\   \:::\    \     
+           \::::/    /          |::|\::::/    /      \:::\    /:::/    /      \:::\   \:::\____\       \:::\   \:::\____\    
+           /:::/    /           |::| \::/____/        \:::\  /:::/    /        \:::\   \::/    /        \:::\  /:::/    /    
+          /:::/    /            |::|  ~|               \:::\/:::/    /          \:::\   \/____/          \:::\/:::/    /     
+         /:::/    /             |::|   |                \::::::/    /            \:::\    \               \::::::/    /      
+        /:::/    /              \::|   |                 \::::/    /              \:::\____\               \::::/    /       
+        \::/    /                \:|   |                  \::/    /                \::/    /                \::/    /        
+         \/____/                  \|___|                   \/____/                  \/____/                  \/____/         
+                                                                                                                             
+```
 
-Ardes/
-README.md: Detaljan opis alata i uputstvo za korišćenje
-requirements.txt: Lista Python zavisnosti (nmap, requests, beautifulsoup4...)
-ardes.py: Glavni ulazni fajl (CLI interfejs)
+*Automated Recon & Detection Suite*
 
-core/
-scanner.py: Modul za skeniranje IP adresa i detekciju portova (80/8080)
-dirbuster.py: Modul za brute-force napade na direktorijume (koristi wordlist + requests)
-fetcher.py: Modul za curl/GET zahteve i parsiranje HTML stranica
-fingerprint.py: Modul za prepoznavanje alata i verzija korišćenjem regex-a i heuristika
-exploit_search.py: Modul za slanje upita na Exploit-DB (web scraping ili API)
-utils.py: Pomoćne funkcije (logovanje, validacija IP adresa, itd.)
+![last-commit](https://img.shields.io/github/last-commit/aleksamilicev/Ardes?style=flat&logo=git&logoColor=white&color=0080ff)
+![repo-top-language](https://img.shields.io/github/languages/top/aleksamilicev/Ardes?style=flat&color=0080ff)
+![repo-language-count](https://img.shields.io/github/languages/count/aleksamilicev/Ardes?style=flat&color=0080ff)
 
-data/
-common_dirs.txt: Wordlist za brute-force napade na direktorijume
-fingerprints.json: JSON šabloni (regex) za detekciju alata i verzija
-results/: Direktorijum za snimanje rezultata skeniranja
+*Built with the tools and technologies:*  
+![Markdown](https://img.shields.io/badge/Markdown-000000.svg?style=flat&logo=Markdown&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB.svg?style=flat&logo=Python&logoColor=white)
 
-reports/
-scan_2025-09-05.txt: Primer izlaznog fajla sa rezultatima skeniranja
-exploits.json: JSON fajl sa pronađenim exploit-ima
+---
+
+## Table of Contents
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+
+---
+
+## Overview
+Ardes is an all-in-one developer tool that combines dependency management with advanced security assessment capabilities, enabling automated reconnaissance and vulnerability detection across networks and web applications.
+
+**Why Ardes?**  
+This project streamlines security testing and environment setup. The core features include:
+
+- 🛠️ **Dependency Management:** Uses `requirements.txt` to ensure consistent environments and simplify dependency updates.
+- 🔍 **Automated Recon Workflow:** Coordinates modules for IP scanning, port detection, directory brute-force, and fingerprinting.
+- 📊 **Comprehensive Reporting:** Generates detailed reports on network and web vulnerabilities for easy analysis.
+- 🌐 **Web Resource Enumeration:** Performs directory and content fetching to map application structures.
+- 🛡️ **Security Module Integration:** Facilitates exploit searches and vulnerability assessments seamlessly.
+
+---
+
+## Getting Started
+
+### Prerequisites
+This project requires the following dependencies:
+- **Programming Language:** Python  
+- **Package Manager:** Pip  
+
+### Installation
+Build Ardes from the source and install dependencies:
+
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/aleksamilicev/Ardes
+
+2. **Navigate to the project directory:**
+   ```sh
+   cd Ardes
+
+3. **Install the dependencies:**
+Using pip:
+   ```sh
+   pip install -r requirements.txt
+
+### Usage
+
+Run the project with:
+    ```sh
+    
+    python3 arders.py <ip_address>
 
 
-# Uputstvo za korišćenje
-Instalacija
-Da biste pokrenuli Ardes na svom računaru, prvo morate instalirati sve potrebne Python zavisnosti. To možete uraditi pomoću sledeće komande:
-pip install -r requirements.txt
-
-....
+⬆ Return
