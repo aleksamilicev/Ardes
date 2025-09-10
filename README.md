@@ -77,4 +77,3 @@ Run the project with:
     python3 arders.py <ip_address>
 
 
-⬆ Return
