@@ -254,41 +254,28 @@ class TechnologyFingerprinter:
         return sorted(filtered_terms)
     
     def save_machine_readable_results(self):
-        """Sačuvaj rezultate u results/fingerprint.txt"""
+        """Sačuvaj sažete rezultate u results/fingerprint.txt"""
         if not os.path.exists(RESULTS_DIR):
             os.makedirs(RESULTS_DIR)
-        
+
         try:
+            all_search_terms = self.get_all_search_terms()
             with open(FINGERPRINT_RESULTS, 'w', encoding='utf-8') as f:
-                # Technology detection results
-                f.write("=== DETECTED TECHNOLOGIES ===\n")
-                for url, data in self.detected_technologies.items():
-                    f.write(f"URL:{url}\n")
-                    f.write(f"STATUS:{data['status']}\n")
-                    f.write(f"TITLE:{data['title']}\n")
-                    
-                    for category, items in data['technologies'].items():
-                        for item in items:
-                            f.write(f"TECH:{category.upper()}:{item}\n")
-                    
-                    # Sačuvaj search terme za svaki URL
-                    for term in data.get('search_terms', []):
-                        f.write(f"SEARCH_TERM:{term}\n")
-                    
-                    f.write("---\n")
-                
-                # Globalna lista svih search termina
-                all_search_terms = self.get_all_search_terms()
-                f.write("\n=== ALL SEARCH TERMS FOR EXPLOIT SEARCH ===\n")
-                for term in all_search_terms:
-                    f.write(f"GLOBAL_SEARCH_TERM:{term}\n")
-                
-                f.write(f"\nTOTAL_SEARCH_TERMS:{len(all_search_terms)}\n")
-            
+                #f.write("=== SUMMARY OF SEARCH TERMS ===\n")
+                #f.write(f"TOTAL_SEARCH_TERMS:{len(all_search_terms)}\n\n")
+
+                if all_search_terms:
+                    for term in all_search_terms[:10]:  # prvih 10 termina
+                        f.write(f"{term}\n")
+
+                    if len(all_search_terms) > 10:
+                        f.write(f"\n... and {len(all_search_terms) - 10} more\n")
+
             print(f"{Fore.GREEN}[+] Machine readable results saved: {FINGERPRINT_RESULTS}{Style.RESET_ALL}")
         except Exception as e:
             print(f"{Fore.RED}[!] Error saving machine readable results: {e}{Style.RESET_ALL}")
     
+
     def save_detailed_report(self):
         """Sačuvaj detaljan izveštaj"""
         if not os.path.exists(REPORTS_DIR):
