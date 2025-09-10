@@ -72,8 +72,7 @@ Using pip:
 ### Usage
 
 Run the project with:
-    ```sh
-    
+
     python3 arders.py <ip_address>
 
 
