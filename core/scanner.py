@@ -4,6 +4,7 @@ import socket
 import datetime
 import os
 import re
+import time
 from collections import defaultdict
 from colorama import Fore, Style, init
 
@@ -199,7 +200,7 @@ def display_server_info(server_info):
         print(f"       Header: {server_info['full_header']}")
     print(f"       Confidence: {server_info['confidence']}")
 
-def save_enhanced_report(target_ip, results):
+def save_enhanced_report(target_ip, results, execution_time):
     """Saving a detailed report"""
     if not os.path.exists("reports"):
         os.makedirs("reports")
@@ -211,7 +212,8 @@ def save_enhanced_report(target_ip, results):
         f.write(f"HTTP Server Scan Results for {target_ip}\n")
         f.write("=" * 60 + "\n")
         f.write(f"Scan Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        f.write(f"Target: {target_ip}\n\n")
+        f.write(f"Target: {target_ip}\n")
+        f.write(f"Execution Time: {execution_time:.2f} seconds\n\n")
         
         if results:
             f.write("DISCOVERED HTTP SERVERS:\n")
@@ -246,6 +248,9 @@ def save_enhanced_report(target_ip, results):
     print(f"{Fore.GREEN}[+] Detailed report is saved in: {filename}{Style.RESET_ALL}")
 
 def main():
+    # Pokretanje merenja vremena
+    start_time = time.time()
+    
     if len(sys.argv) != 2:
         print(f"{Fore.CYAN}[*] Use case: python3 {sys.argv[0]} <IP>{Style.RESET_ALL}")
         print(f"{Fore.CYAN}[*] Example: python3 {sys.argv[0]} 192.168.1.1{Style.RESET_ALL}")
@@ -293,9 +298,13 @@ def main():
     else:
         print(f"{Fore.RED}[-] No open HTTP ports were found on target machine.{Style.RESET_ALL}")
     
+    # Završetak merenja vremena
+    end_time = time.time()
+    execution_time = end_time - start_time
+    
     # Čuvanje izveštaja
     if results:
-        save_enhanced_report(target_ip, results)
+        save_enhanced_report(target_ip, results, execution_time)
         
         # Sažetak
         print("\n" + "=" * 70)
@@ -306,6 +315,11 @@ def main():
             print(f"Port {port}: {Fore.GREEN}{server['name']} {server['version']} ({server['confidence']} confidence){Style.RESET_ALL}")
     else:
         print(f"\n{Fore.RED}[!] No HTTP servers were found on target IP.{Style.RESET_ALL}")
+    
+    # Prikaz vremena izvršavanja
+    print("\n" + "=" * 70)
+    print(f"{Fore.CYAN}[*] Total execution time: {execution_time:.2f} seconds{Style.RESET_ALL}")
+    print("=" * 70)
 
 if __name__ == "__main__":
     main()

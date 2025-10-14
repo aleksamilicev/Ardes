@@ -81,24 +81,57 @@ def test_connection(base_url):
         print(f"[!] Unable to connect to {base_url}")
         return False
 
-def print_banner(base_url, wordlist_path, extensions_used, total_words, threads, max_depth):
+def ask_yes_no(question):
+    """Pita korisnika za Yes/No odgovor"""
+    while True:
+        answer = input(f"{Fore.CYAN}{question} [Y/n]: {Style.RESET_ALL}").strip().lower()
+        if answer in ['y', 'yes', '']:
+            return True
+        elif answer in ['n', 'no']:
+            return False
+        else:
+            print(f"{Fore.RED}Invalid input. Please enter Y or N.{Style.RESET_ALL}")
+
+def ask_depth():
+    """Pita korisnika za željenu dubinu rekurzije"""
+    while True:
+        try:
+            depth = input(f"{Fore.CYAN}Enter maximum recursion depth (1-10): {Style.RESET_ALL}").strip()
+            depth = int(depth)
+            if 1 <= depth <= 10:
+                return depth
+            else:
+                print(f"{Fore.RED}Please enter a number between 1 and 10.{Style.RESET_ALL}")
+        except ValueError:
+            print(f"{Fore.RED}Invalid input. Please enter a number.{Style.RESET_ALL}")
+
+def print_banner(base_url, wordlist_path, extensions_used, total_words, threads, max_depth, recursive):
     """Ispisuje banner u gobuster stilu"""
     print("=" * 70)
-    print("DirBuster v2.0 - Recursive Threaded Edition")
+    if recursive:
+        print("DirBuster v2.0 - Recursive Threaded Edition")
+    else:
+        print("DirBuster v2.0 - Simple Mode (No Recursion)")
     print("by A13k5a M1l1c3v")
     print("=" * 70)
     print(f"[+] Url:                     {base_url}")
     print(f"[+] Method:                  GET")
     print(f"[+] Threads:                 {threads}")
     print(f"[+] Wordlist:                {wordlist_path}")
-    print(f"[+] Recursive Depth:         {max_depth}")
+    if recursive:
+        print(f"[+] Recursive Depth:         {max_depth}")
+    else:
+        print(f"[+] Recursive:               Disabled")
     print(f"[+] Negative Status codes:   404")
     print(f"[+] User Agent:              DirBuster/2.0")
     if extensions_used:
         print(f"[+] Extensions:              {', '.join(EXTENSIONS[1:])}")  # Skip empty extension
     print(f"[+] Timeout:                 10s")
     print("=" * 70)
-    print("Starting Recursive DirBuster in directory enumeration mode")
+    if recursive:
+        print("Starting Recursive DirBuster in directory enumeration mode")
+    else:
+        print("Starting DirBuster in simple enumeration mode")
     print("=" * 70)
 
 def normalize_path(path):
@@ -157,16 +190,22 @@ def save_machine_readable_results(target_url, found_paths):
         with print_lock:
             print(f"{Fore.RED}[!] Error saving machine readable results: {e}{Style.RESET_ALL}")
 
-def save_report(target_url, found_paths, scan_stats):
+def save_report(target_url, found_paths, scan_stats, recursive):
     """Čuva detaljan izveštaj u reports folder"""
     if not os.path.exists(REPORTS_DIR):
         os.makedirs(REPORTS_DIR)
     
     timestamp = datetime.datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
-    filename = os.path.join(REPORTS_DIR, f"dirb_recursive_{timestamp}.txt")
+    if recursive:
+        filename = os.path.join(REPORTS_DIR, f"dirb_recursive_{timestamp}.txt")
+    else:
+        filename = os.path.join(REPORTS_DIR, f"dirb_simple_{timestamp}.txt")
     
     with open(filename, "w", encoding='utf-8') as f:
-        f.write(f"DirBuster Recursive Scan Results\n")
+        if recursive:
+            f.write(f"DirBuster Recursive Scan Results\n")
+        else:
+            f.write(f"DirBuster Simple Scan Results\n")
         f.write("=" * 70 + "\n")
         f.write(f"Target URL: {target_url}\n")
         f.write(f"Scan Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -174,35 +213,48 @@ def save_report(target_url, found_paths, scan_stats):
         f.write(f"Found Paths: {len(found_paths)}\n")
         f.write(f"Scan Duration: {scan_stats['duration']:.2f} seconds\n")
         f.write(f"Requests/second: {scan_stats['requests_per_second']:.2f}\n")
-        f.write(f"Max Recursion Depth: {scan_stats.get('max_depth', 'N/A')}\n")
+        if recursive:
+            f.write(f"Max Recursion Depth: {scan_stats.get('max_depth', 'N/A')}\n")
         f.write("\n" + "=" * 70 + "\n\n")
         
         if found_paths:
-            f.write("DISCOVERED PATHS (by depth):\n")
-            f.write("-" * 40 + "\n")
-            
-            # Grupiši po dubini
-            paths_by_depth = {}
-            for path, code, size, redirect, depth in found_paths:
-                if depth not in paths_by_depth:
-                    paths_by_depth[depth] = []
-                paths_by_depth[depth].append((path, code, size, redirect))
-            
-            for depth in sorted(paths_by_depth.keys()):
-                f.write(f"\nDEPTH {depth}:\n")
-                f.write("-" * 20 + "\n")
-                for path, code, size, redirect in paths_by_depth[depth]:
-                    indent = "  " * depth
+            if recursive:
+                f.write("DISCOVERED PATHS (by depth):\n")
+                f.write("-" * 40 + "\n")
+                
+                # Grupiši po dubini
+                paths_by_depth = {}
+                for path, code, size, redirect, depth in found_paths:
+                    if depth not in paths_by_depth:
+                        paths_by_depth[depth] = []
+                    paths_by_depth[depth].append((path, code, size, redirect))
+                
+                for depth in sorted(paths_by_depth.keys()):
+                    f.write(f"\nDEPTH {depth}:\n")
+                    f.write("-" * 20 + "\n")
+                    for path, code, size, redirect in paths_by_depth[depth]:
+                        indent = "  " * depth
+                        if redirect:
+                            f.write(f"{indent}/{path:<30} (Status: {code}) [Size: {size}] -> {redirect}\n")
+                        else:
+                            f.write(f"{indent}/{path:<30} (Status: {code}) [Size: {size}]\n")
+            else:
+                f.write("DISCOVERED PATHS:\n")
+                f.write("-" * 40 + "\n")
+                for path, code, size, redirect, depth in found_paths:
                     if redirect:
-                        f.write(f"{indent}/{path:<30} (Status: {code}) [Size: {size}] -> {redirect}\n")
+                        f.write(f"/{path:<30} (Status: {code}) [Size: {size}] -> {redirect}\n")
                     else:
-                        f.write(f"{indent}/{path:<30} (Status: {code}) [Size: {size}]\n")
+                        f.write(f"/{path:<30} (Status: {code}) [Size: {size}]\n")
         else:
             f.write("No interesting directories/files found.\n")
     
     with print_lock:
         print("=" * 70)
-        print("Recursive scan finished")
+        if recursive:
+            print("Recursive scan finished")
+        else:
+            print("Simple scan finished")
         print("=" * 70)
         print(f"{Fore.GREEN}[+] Report saved: {filename}{Style.RESET_ALL}")
 
@@ -226,6 +278,8 @@ def dirbuster_scan_single_level(base_url, wordlist, delay=0, threads=10, depth=0
     found = []
     total = len(wordlist)
     completed = 0
+    
+    depth_start_time = time.time()  # Vreme početka skeniranja ovog depth-a
     
     def create_session():
         session = requests.Session()
@@ -275,9 +329,16 @@ def dirbuster_scan_single_level(base_url, wordlist, delay=0, threads=10, depth=0
             print(f"\n{Fore.RED}[!] Scan interrupted by user.{Style.RESET_ALL}")
         raise
 
+    # Vreme potrebno za ovaj depth
+    depth_end_time = time.time()
+    depth_duration = depth_end_time - depth_start_time
+    
+    with print_lock:
+        print(f"{Fore.MAGENTA}[*] Depth {depth} scan completed in {depth_duration:.2f} seconds{Style.RESET_ALL}")
+
     return found, completed
 
-def recursive_dirbuster_scan(base_url, wordlist, delay=0, threads=10, max_depth=3):
+def recursive_dirbuster_scan(base_url, wordlist, delay=0, threads=10, max_depth=1):
     """Glavna rekurzivna funkcija za skeniranje"""
     global scanned_paths, all_found_paths
     
@@ -358,24 +419,60 @@ def recursive_dirbuster_scan(base_url, wordlist, delay=0, threads=10, max_depth=
 
     return all_found_paths, scan_stats
 
+def simple_dirbuster_scan(base_url, wordlist, delay=0, threads=10):
+    """Jednostavno skeniranje bez rekurzije (kao gobuster)"""
+    global all_found_paths
+    
+    total_requests = 0
+    start_time = time.time()
+    
+    print(f"\n{Fore.MAGENTA}[*] Starting simple scan: {base_url}{Style.RESET_ALL}")
+    
+    # Skeniraj samo base URL
+    found, requests_made = dirbuster_scan_single_level(
+        base_url, wordlist, delay, threads, 0
+    )
+    
+    total_requests = requests_made
+    
+    # Konvertuj rezultate u konzistentan format
+    formatted_found = []
+    for word, status_code, size, redirect, depth, headers in found:
+        formatted_found.append((word, status_code, size, redirect, depth))
+    
+    end_time = time.time()
+    duration = end_time - start_time
+    rps = total_requests / duration if duration > 0 else 0
+
+    scan_stats = {
+        'total_requests': total_requests,
+        'duration': duration,
+        'start_time': start_time,
+        'end_time': end_time,
+        'requests_per_second': rps
+    }
+
+    return formatted_found, scan_stats
+
 def main():
-    global scanned_paths, all_found_paths, path_to_url_mapping
+    global scanned_paths, all_found_paths
     
     # Reset globalnih varijabli
     scanned_paths = set()
     all_found_paths = []
-    path_to_url_mapping = {}
     
-    parser = argparse.ArgumentParser(description='DirBuster - Recursive Directory Enumeration Tool')
+    parser = argparse.ArgumentParser(description='DirBuster - Directory Enumeration Tool')
     parser.add_argument('target', help='Target IP address or hostname')
     parser.add_argument('-p', '--port', default='80', help='Target port (default: 80)')
     parser.add_argument('-w', '--wordlist', help='Custom wordlist path')
     parser.add_argument('-e', '--extensions', action='store_true', help='Use file extensions')
     parser.add_argument('-d', '--delay', type=float, default=0, help='Delay between requests in seconds')
     parser.add_argument('-t', '--threads', type=int, default=10, help='Number of threads (default: 10)')
-    parser.add_argument('-r', '--max-depth', type=int, default=3, help='Maximum recursion depth (default: 3)')
     parser.add_argument('--https', action='store_true', help='Use HTTPS instead of HTTP')
     parser.add_argument('--path', default='', help='Base path to start enumeration from')
+    parser.add_argument('--non-interactive', action='store_true', help='Skip interactive prompts (use defaults)')
+    parser.add_argument('-r', '--recursive', action='store_true', help='Enable recursive scanning (non-interactive)')
+    parser.add_argument('--max-depth', type=int, default=3, help='Maximum recursion depth (default: 3, for non-interactive mode)')
     
     # Fallback na stari način ako nema argparse argumenata
     if len(sys.argv) == 2 or (len(sys.argv) == 3 and sys.argv[2].isdigit()):
@@ -388,7 +485,13 @@ def main():
         extensions_used = False
         delay = 0
         threads = 20  # Default broj threadova
-        max_depth = 3
+        
+        # Pitaj korisnika za rekurziju i depth
+        use_recursion = ask_yes_no("Do you want to perform recursive scanning?")
+        if use_recursion:
+            max_depth = ask_depth()
+        else:
+            max_depth = 0
     else:
         args = parser.parse_args()
         
@@ -403,7 +506,18 @@ def main():
         extensions_used = args.extensions
         delay = args.delay
         threads = args.threads
-        max_depth = args.max_depth
+        
+        # Interaktivni ili non-interaktivni mod
+        if args.non_interactive:
+            use_recursion = args.recursive
+            max_depth = args.max_depth if use_recursion else 0
+        else:
+            # Pitaj korisnika
+            use_recursion = ask_yes_no("Do you want to perform recursive scanning?")
+            if use_recursion:
+                max_depth = ask_depth()
+            else:
+                max_depth = 0
     
     # Validacija parametara
     if threads < 1:
@@ -411,9 +525,9 @@ def main():
     elif threads > 50:
         print(f"{Fore.YELLOW}[!] Warning: Using {threads} threads might be too aggressive. Consider reducing to 20-30.{Style.RESET_ALL}")
     
-    if max_depth < 1:
+    if use_recursion and max_depth < 1:
         max_depth = 1
-    elif max_depth > 10:
+    elif use_recursion and max_depth > 10:
         print(f"{Fore.YELLOW}[!] Warning: Max depth {max_depth} might be too deep and slow. Consider reducing to 3-5.{Style.RESET_ALL}")
     
     # Test konekcije
@@ -428,24 +542,29 @@ def main():
         wordlist = expand_wordlist(wordlist, True)
     
     # Prikaži banner
-    print_banner(base_url, wordlist_path, extensions_used, len(wordlist), threads, max_depth)
+    print_banner(base_url, wordlist_path, extensions_used, len(wordlist), threads, max_depth, use_recursion)
     
-    # Pokreni rekurzivno skeniranje
-    found_paths, scan_stats = recursive_dirbuster_scan(base_url, wordlist, delay, threads, max_depth)
-    
-    # Konvertuj format rezultata za kompatibilnost sa postojećim funkcijama
-    formatted_paths = []
-    for path, code, size, redirect, depth, headers in found_paths:
-        formatted_paths.append((path, code, size, redirect, depth))
+    # Pokreni skeniranje (rekurzivno ili jednostavno)
+    if use_recursion:
+        found_paths, scan_stats = recursive_dirbuster_scan(base_url, wordlist, delay, threads, max_depth)
+        # Konvertuj format rezultata za kompatibilnost sa postojećim funkcijama
+        formatted_paths = []
+        for path, code, size, redirect, depth, headers in found_paths:
+            formatted_paths.append((path, code, size, redirect, depth))
+    else:
+        formatted_paths, scan_stats = simple_dirbuster_scan(base_url, wordlist, delay, threads)
     
     # Sačuvaj oba tipa rezultata
-    save_report(base_url, formatted_paths, scan_stats)
+    save_report(base_url, formatted_paths, scan_stats, use_recursion)
     save_machine_readable_results(base_url, formatted_paths)
     
     # Finalni prikaz statistika
     with print_lock:
-        print(f"\n{Fore.GREEN}[+] Recursive scan completed!{Style.RESET_ALL}")
-        print(f"[+] Total paths found: {len(found_paths)}")
+        if use_recursion:
+            print(f"\n{Fore.GREEN}[+] Recursive scan completed!{Style.RESET_ALL}")
+        else:
+            print(f"\n{Fore.GREEN}[+] Simple scan completed!{Style.RESET_ALL}")
+        print(f"[+] Total paths found: {len(formatted_paths)}")
         print(f"[+] Total requests made: {scan_stats['total_requests']}")
         print(f"[+] Scan duration: {scan_stats['duration']:.2f} seconds")
         print(f"[+] Average requests/second: {scan_stats['requests_per_second']:.2f}")
