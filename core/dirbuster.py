@@ -180,8 +180,15 @@ def save_machine_readable_results(target_url, found_paths):
                     for path, code, size, redirect, depth in found_paths:
                         if code == 403:
                             continue  # preskoči 403
-                        # Format: http://ip_adresa:port/resurs
-                        full_url = urljoin(base_url, path)
+                        
+                        # Ako postoji redirect (status 301), koristi redirect URL bez trailing slash-a
+                        if redirect and code == 301:
+                            # Redirect URL već ima pun path, samo ukloni trailing slash
+                            full_url = redirect.rstrip('/')
+                        else:
+                            # Za ostale slučajeve (200, itd.), konstruiši URL
+                            full_url = urljoin(base_url, path)
+                        
                         f.write(f"{full_url}\n")
                 else:
                     # Ako nema rezultata, fajl može biti prazan
@@ -484,7 +491,7 @@ def main():
         wordlist_path = WORDLIST
         extensions_used = False
         delay = 0
-        threads = 20  # Default broj threadova
+        threads = 40  # Default broj threadova
         
         # Pitaj korisnika za rekurziju i depth
         use_recursion = ask_yes_no("Do you want to perform recursive scanning?")
